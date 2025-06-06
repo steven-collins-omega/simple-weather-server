@@ -14,5 +14,12 @@ type Coordinates struct {
 }
 
 type WeatherService interface {
-	Forecast(coords Coordinates) BriefWeather
+	Forecast(coords Coordinates) (BriefWeather, error)
+}
+
+// returned from the final forecast URL
+type Period struct {
+	Name          string `json:"name"` // e.g. "Today", "Tonight"
+	Temperature   int    `json:"temperature"`
+	ShortForecast string `json:"shortForecast"`
 }

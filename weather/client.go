@@ -11,13 +11,13 @@ func (n NationalWeatherService) Forecast(coords Coordinates) (BriefWeather, erro
 	}
 
 	periods, err := fetchForecast(url)
-	if err != nil {
-		return BriefWeather{}, fmt.Errorf("no forecasts available for location. Error: %w", err)
+	if err != nil || len(periods) == 0 {
+		return BriefWeather{}, fmt.Errorf("no forecasts available for location. error: %w", err)
 	}
 
 	brief, ok := extractBriefForecast(periods);
 	if !ok {
-		return BriefWeather{}, fmt.Errorf("today's forecast not available")
+		return BriefWeather{}, fmt.Errorf("no forecast for 'Today' or current time period")
 	}
 
 	return brief, nil

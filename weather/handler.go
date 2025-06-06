@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -12,7 +11,6 @@ import (
 
 func HandleWeatherRequest(w http.ResponseWriter, r *http.Request, svc WeatherService) {
 	path := strings.TrimPrefix(r.URL.Path, "/weather/")
-	log.Printf("Received request for path: %q", r.URL.Path)
 	coords, err := parseCoordinates(path)
 	if err != nil {
 		http.Error(w, "Invalid coordinates format. Expected /weather/{lat},{lon}", http.StatusBadRequest)

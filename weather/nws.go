@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 const (
@@ -11,8 +12,8 @@ const (
 	urlTemplate = "https://api.weather.gov/points/%.4f,%.4f"
 
 	// in degrees Fahrenheit
-	minHot   = 75
-	maxCold  = 50
+	minHot  = 75
+	maxCold = 50
 )
 
 func getForecastURL(coords Coordinates) (string, error) {
@@ -60,13 +61,25 @@ func extractBriefForecast(periods []Period) (bw BriefWeather, ok bool) {
 	for _, p := range periods {
 		if p.Name == "Today" {
 			return BriefWeather{
+				Period:      PeriodName(p.Name),
 				Temperature: mapTemperature(p.Temperature),
 				Conditions:  ConditionsDescr(p.ShortForecast),
 			}, true
 		}
 	}
 
-	// fail if "Today" is not present
+	// sometimes there is no "Today" in which case we explicitly check the times
+	now := time.Now()
+	for _, p := range periods {
+		if now.After(p.StartTime) && now.Before(p.EndTime) {
+			return BriefWeather{
+				Period:      PeriodName(p.Name),
+				Temperature: mapTemperature(p.Temperature),
+				Conditions:  ConditionsDescr(p.ShortForecast),
+			}, true
+		}
+	}
+
 	return BriefWeather{}, false
 }
 

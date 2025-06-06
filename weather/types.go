@@ -1,11 +1,15 @@
 package weather
 
+import "time"
+
 type TempDescr string
 type ConditionsDescr string
+type PeriodName string
 
 type BriefWeather struct {
-	Temperature TempDescr
-	Conditions  ConditionsDescr
+	Period      PeriodName          `json:"period"`
+	Temperature TempDescr       `json:"temperature"`
+	Conditions  ConditionsDescr `json:"conditions"`
 }
 
 type Coordinates struct {
@@ -19,7 +23,9 @@ type WeatherService interface {
 
 // returned from the final forecast URL
 type Period struct {
-	Name          string `json:"name"` // e.g. "Today", "Tonight"
-	Temperature   int    `json:"temperature"`
-	ShortForecast string `json:"shortForecast"`
+	Name          PeriodName      `json:"name"` // e.g. "Today", "Tonight"
+	StartTime     time.Time       `json:"startTime"`
+	EndTime       time.Time       `json:"endTime"`
+	Temperature   int             `json:"temperature"`
+	ShortForecast ConditionsDescr `json:"shortForecast"`
 }

@@ -7,7 +7,7 @@ type ConditionsDescr string
 type PeriodName string
 
 type BriefWeather struct {
-	Period      PeriodName          `json:"period"`
+	Period      PeriodName      `json:"period"`
 	Temperature TempDescr       `json:"temperature"`
 	Conditions  ConditionsDescr `json:"conditions"`
 }

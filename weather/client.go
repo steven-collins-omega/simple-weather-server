@@ -15,7 +15,7 @@ func (n NationalWeatherService) Forecast(coords Coordinates) (BriefWeather, erro
 		return BriefWeather{}, fmt.Errorf("no forecasts available for location. error: %w", err)
 	}
 
-	brief, ok := extractBriefForecast(periods);
+	brief, ok := extractBriefForecast(periods)
 	if !ok {
 		return BriefWeather{}, fmt.Errorf("no forecast for 'Today' or current time period")
 	}

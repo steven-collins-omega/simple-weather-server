@@ -2,7 +2,6 @@ package weather
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -31,7 +30,7 @@ func HandleWeatherRequest(w http.ResponseWriter, r *http.Request, svc WeatherSer
 func parseCoordinates(path string) (Coordinates, error) {
 	parts := strings.Split(path, ",")
 	if len(parts) != 2 {
-		return Coordinates{}, errors.New("invalid coordinate format")
+		return Coordinates{}, fmt.Errorf("invalid coordinate format")
 	}
 
 	lat, err1 := strconv.ParseFloat(parts[0], 32)

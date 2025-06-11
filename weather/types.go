@@ -13,8 +13,8 @@ type BriefWeather struct {
 }
 
 type Coordinates struct {
-	Latitude  float32
-	Longitude float32
+	Latitude  string
+	Longitude string
 }
 
 type WeatherService interface {

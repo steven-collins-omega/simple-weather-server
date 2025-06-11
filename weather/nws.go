@@ -9,7 +9,7 @@ import (
 
 const (
 	// template for NWS points API, which we call to get the "real" forecast URL
-	urlTemplate = "https://api.weather.gov/points/%.4f,%.4f"
+	urlTemplate = "https://api.weather.gov/points/%s,%s"
 
 	// in degrees Fahrenheit
 	minHot  = 75

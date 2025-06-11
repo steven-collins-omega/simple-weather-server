@@ -33,15 +33,15 @@ func parseCoordinates(path string) (Coordinates, error) {
 		return Coordinates{}, fmt.Errorf("invalid coordinate format")
 	}
 
-	lat, err1 := strconv.ParseFloat(parts[0], 32)
-	lon, err2 := strconv.ParseFloat(parts[1], 32)
+	_, err1 := strconv.ParseFloat(parts[0], 32)
+	_, err2 := strconv.ParseFloat(parts[1], 32)
 
 	if err1 != nil || err2 != nil {
 		return Coordinates{}, fmt.Errorf("could not parse lat/lon: %w, %w", err1, err2)
 	}
 
 	return Coordinates{
-		Latitude:  float32(lat),
-		Longitude: float32(lon),
+		Latitude:  parts[0],
+		Longitude: parts[1],
 	}, nil
 }

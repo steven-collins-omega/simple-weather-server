@@ -16,7 +16,7 @@ func HandleWeatherRequest(w http.ResponseWriter, r *http.Request, svc WeatherSer
 		return
 	}
 
-	brief, err := svc.Forecast(coords)
+	brief, err := svc.Forecast(r.Context(), coords)
 	if err != nil {
 		message := fmt.Sprintf("Forecast unavailable because: %v", err)
 		http.Error(w, message, http.StatusServiceUnavailable)

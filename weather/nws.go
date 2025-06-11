@@ -1,6 +1,7 @@
 package weather
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -16,9 +17,14 @@ const (
 	maxCold = 50
 )
 
-func getForecastURL(coords Coordinates) (string, error) {
+func getForecastURL(ctx context.Context, coords Coordinates) (string, error) {
 	url := fmt.Sprintf(urlTemplate, coords.Latitude, coords.Longitude)
-	resp, err := http.Get(url)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return "", err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", err
 	}
@@ -37,8 +43,13 @@ func getForecastURL(coords Coordinates) (string, error) {
 	return result.Properties.Forecast, nil
 }
 
-func fetchForecast(forecastURL string) ([]Period, error) {
-	resp, err := http.Get(forecastURL)
+func fetchForecast(ctx context.Context, forecastURL string) ([]Period, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, forecastURL, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

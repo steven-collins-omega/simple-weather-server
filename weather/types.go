@@ -1,6 +1,9 @@
 package weather
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 type TempDescr string
 type ConditionsDescr string
@@ -18,7 +21,7 @@ type Coordinates struct {
 }
 
 type WeatherService interface {
-	Forecast(coords Coordinates) (BriefWeather, error)
+	Forecast(ctx context.Context, coords Coordinates) (BriefWeather, error)
 }
 
 // returned from the final forecast URL

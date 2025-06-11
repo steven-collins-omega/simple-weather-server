@@ -1,16 +1,19 @@
 package weather
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 type NationalWeatherService struct{}
 
-func (n NationalWeatherService) Forecast(coords Coordinates) (BriefWeather, error) {
-	url, err := getForecastURL(coords)
+func (n NationalWeatherService) Forecast(ctx context.Context, coords Coordinates) (BriefWeather, error) {
+	url, err := getForecastURL(ctx, coords)
 	if err != nil {
 		return BriefWeather{}, fmt.Errorf("error accessing National Weather Service: %w", err)
 	}
 
-	periods, err := fetchForecast(url)
+	periods, err := fetchForecast(ctx, url)
 	if err != nil || len(periods) == 0 {
 		return BriefWeather{}, fmt.Errorf("no forecasts available for location. error: %w", err)
 	}
